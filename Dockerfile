@@ -7,7 +7,7 @@ RUN apt-get -qqy install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev
 
 # build/install OpenResty
 ENV SRC_DIR /opt
-ENV OPENRESTY_VERSION 1.7.2.1
+ENV OPENRESTY_VERSION 1.7.7.2
 ENV OPENRESTY_PREFIX /opt/openresty
 ENV LAPIS_VERSION 1.0.2
 
