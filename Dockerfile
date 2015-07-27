@@ -21,10 +21,9 @@ RUN luarocks install --server=http://rocks.moonscript.org/manifests/leafo lapis 
 RUN luarocks install moonscript
 RUN luarocks install lapis-console
 
-# Unset ENV
-RUN unset SRC_DIR OPENRESTY_VERSION OPENRESTY_PREFIX LAPIS_VERSION
-
 WORKDIR $OPENRESTY_PREFIX/nginx/conf
+
+ENV LAPIS_OPENRESTY $OPENRESTY_PREFIX/nginx/sbin/nginx
 
 EXPOSE 8080
 EXPOSE 80
@@ -32,5 +31,6 @@ EXPOSE 80
 # Setup sample lapis project.
 RUN mv nginx.conf nginx.conf.bk && lapis new && moonc *.moon
 
-ENTRYPOINT ["LAPIS_OPENRESTY=/opt/openresty/nginx/sbin/nginx", "lapis"]
+# LAPIS_OPENRESTY=/opt/openresty/nginx/sbin/nginx lapis server production
+ENTRYPOINT ["lapis"]
 CMD ["server", "production"]
