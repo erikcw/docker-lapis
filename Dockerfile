@@ -1,15 +1,14 @@
 FROM ubuntu:14.04
 MAINTAINER Erik Wickstrom <erik@erikwickstrom.com>
 
-RUN apt-get -qq update
 # install build dependencies
-RUN apt-get -qqy install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make curl git-core
+RUN apt-get -qq update && apt-get -qqy install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make curl git-core luarocks
 
 # build/install OpenResty
 ENV SRC_DIR /opt
-ENV OPENRESTY_VERSION 1.7.10.1
+ENV OPENRESTY_VERSION 1.7.10.2
 ENV OPENRESTY_PREFIX /opt/openresty
-ENV LAPIS_VERSION 1.1.0
+ENV LAPIS_VERSION 1.3.0
 
 RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
  && tar xzf ngx_openresty-$OPENRESTY_VERSION.tar.gz && cd ngx_openresty-$OPENRESTY_VERSION \
@@ -17,8 +16,6 @@ RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRES
  --with-luajit \
  --with-http_realip_module \
  && make && make install && rm -rf ngx_openresty-$OPENRESTY_VERSION*
-
-RUN apt-get -qqy install luarocks
 
 RUN luarocks install --server=http://rocks.moonscript.org/manifests/leafo lapis $LAPIS_VERSION
 RUN luarocks install moonscript
@@ -29,4 +26,11 @@ RUN unset SRC_DIR OPENRESTY_VERSION OPENRESTY_PREFIX LAPIS_VERSION
 
 WORKDIR $OPENRESTY_PREFIX/nginx/conf
 
-CMD LAPIS_OPENRESTY=/opt/openresty/nginx/sbin/nginx lapis server production
+EXPOSE 8080
+EXPOSE 80
+
+# Setup sample lapis project.
+RUN mv nginx.conf nginx.conf.bk && lapis new && moonc *.moon
+
+ENTRYPOINT ["LAPIS_OPENRESTY=/opt/openresty/nginx/sbin/nginx", "lapis"]
+CMD ["server", "production"]
