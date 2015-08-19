@@ -6,7 +6,7 @@ RUN apt-get -qq update && apt-get -qqy install libreadline-dev libncurses5-dev l
 
 # build/install OpenResty
 ENV SRC_DIR /opt
-ENV OPENRESTY_VERSION 1.7.10.2
+ENV OPENRESTY_VERSION 1.9.3.1
 ENV OPENRESTY_PREFIX /opt/openresty
 ENV LAPIS_VERSION 1.3.0
 
