@@ -15,6 +15,7 @@ RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRES
  && ./configure --prefix=$OPENRESTY_PREFIX \
  --with-luajit \
  --with-http_realip_module \
+ --with-http_stub_status_module \
  && make && make install && rm -rf ngx_openresty-$OPENRESTY_VERSION*
 
 RUN luarocks install --server=http://rocks.moonscript.org/manifests/leafo lapis $LAPIS_VERSION
