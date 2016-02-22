@@ -11,12 +11,12 @@ ENV OPENRESTY_PREFIX /opt/openresty
 ENV LAPIS_VERSION 1.4.3
 
 RUN cd $SRC_DIR && curl -LO https://openresty.org/download/openresty-$OPENRESTY_VERSION.tar.gz \
- && tar xzf ngx_openresty-$OPENRESTY_VERSION.tar.gz && cd ngx_openresty-$OPENRESTY_VERSION \
+ && tar xzf openresty-$OPENRESTY_VERSION.tar.gz && cd openresty-$OPENRESTY_VERSION \
  && ./configure --prefix=$OPENRESTY_PREFIX \
  --with-luajit \
  --with-http_realip_module \
  --with-http_stub_status_module \
- && make && make install && rm -rf ngx_openresty-$OPENRESTY_VERSION*
+ && make && make install && rm -rf openresty-$OPENRESTY_VERSION*
 
 RUN luarocks install --server=http://rocks.moonscript.org/manifests/leafo lapis $LAPIS_VERSION
 RUN luarocks install moonscript
