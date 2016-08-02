@@ -10,7 +10,7 @@ ENV OPENRESTY_VERSION 1.9.15.1
 ENV OPENRESTY_PREFIX /opt/openresty
 ENV LAPIS_VERSION 1.5.1
 
-RUN cd $SRC_DIR && curl -LO https://openresty.org/download/openresty-$OPENRESTY_VERSION.tar.gz \
+RUN cd $SRC_DIR && curl -LOs https://openresty.org/download/openresty-$OPENRESTY_VERSION.tar.gz \
  && tar xzf openresty-$OPENRESTY_VERSION.tar.gz && cd openresty-$OPENRESTY_VERSION \
  && ./configure --prefix=$OPENRESTY_PREFIX \
  --with-luajit \
